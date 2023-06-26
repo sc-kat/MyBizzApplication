@@ -5,13 +5,14 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -33,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,39 +58,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Preview
-@Composable
-fun Content() {
-    Box(
-        modifier = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .padding(5.dp)
-    ) {
-        Surface(
-            modifier = Modifier
-                .padding(3.dp)
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            shape = RoundedCornerShape(corner = CornerSize(6.dp)),
-            border = BorderStroke(width = 2.dp, color = Color.LightGray)
-        ) {
-
-            Portfolio(data = listOf("Project1", "Project2", "Project3"))
-
-        }
-    }
-}
-
-@Composable
-fun Portfolio(data: List<String>) {
-    LazyColumn {
-        items(data) { item ->
-            Text(item)
-        }
-    }
-}
-
 @Composable
 fun CreateBizCard() {
 
@@ -105,14 +74,13 @@ fun CreateBizCard() {
         Card(
             modifier = Modifier
                 .width(200.dp)
-                .height(390.dp)
                 .padding(12.dp),
             shape = RoundedCornerShape(corner = CornerSize(15.dp)),
             colors = CardDefaults.cardColors(Color.White),
             elevation = CardDefaults.cardElevation(4.dp)
         ) {
             Column(
-                modifier = Modifier.height(300.dp),
+//                modifier = Modifier.height(300.dp),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -122,6 +90,7 @@ fun CreateBizCard() {
                 Button(
                     onClick = {
                         buttonClickedState.value = !buttonClickedState.value
+
                     },
                     shape = RoundedCornerShape(corner = CornerSize(5.dp))
                 ) {
@@ -132,16 +101,59 @@ fun CreateBizCard() {
                 }
                 if (buttonClickedState.value) {
                     Content()
-                } else {
-                    Box {
-
-                    }
                 }
+
             }
         }
     }
 
 }
+
+@Composable
+fun Content() {
+    Box(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth()
+            .padding(5.dp)
+    ) {
+        Surface(
+            modifier = Modifier
+                .padding(3.dp)
+                .fillMaxWidth()
+                .fillMaxHeight(),
+            shape = RoundedCornerShape(corner = CornerSize(6.dp)),
+            border = BorderStroke(width = 2.dp, color = Color.LightGray)
+        ) {
+            Portfolio(data = listOf("Project1", "Project2", "Project3"))
+        }
+    }
+}
+
+@Composable
+fun Portfolio(data: List<String>) {
+    LazyColumn {
+        items(data) { item ->
+            Card(
+                modifier = Modifier
+                    .padding(13.dp)
+                    .fillMaxWidth(),
+                shape = RectangleShape
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .background(MaterialTheme.colorScheme.surface)
+                        .padding(16.dp)
+                ) {
+                    CreateImageProfile()
+
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 private fun CreateInfo() {
