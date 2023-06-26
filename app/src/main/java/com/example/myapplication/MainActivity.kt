@@ -37,9 +37,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.ui.theme.MyApplicationTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +82,6 @@ fun CreateBizCard() {
             elevation = CardDefaults.cardElevation(4.dp)
         ) {
             Column(
-//                modifier = Modifier.height(300.dp),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -90,7 +91,6 @@ fun CreateBizCard() {
                 Button(
                     onClick = {
                         buttonClickedState.value = !buttonClickedState.value
-
                     },
                     shape = RoundedCornerShape(corner = CornerSize(5.dp))
                 ) {
@@ -108,7 +108,7 @@ fun CreateBizCard() {
     }
 
 }
-
+@Preview
 @Composable
 fun Content() {
     Box(
@@ -125,7 +125,7 @@ fun Content() {
             shape = RoundedCornerShape(corner = CornerSize(6.dp)),
             border = BorderStroke(width = 2.dp, color = Color.LightGray)
         ) {
-            Portfolio(data = listOf("Project1", "Project2", "Project3"))
+            Portfolio(data = listOf("Project 1", "Project 2", "Project 3"))
         }
     }
 }
@@ -138,15 +138,21 @@ fun Portfolio(data: List<String>) {
                 modifier = Modifier
                     .padding(13.dp)
                     .fillMaxWidth(),
-                shape = RectangleShape
+                shape = RectangleShape,
+                elevation = CardDefaults.cardElevation(7.dp)
             ) {
                 Row(
                     modifier = Modifier
-                        .padding(8.dp)
+//                        .padding(8.dp)
                         .background(MaterialTheme.colorScheme.surface)
-                        .padding(16.dp)
+                        .padding(10.dp)
+                        .fillMaxWidth()
                 ) {
-                    CreateImageProfile()
+                    CreateImageProfile(modifier = Modifier.size(100.dp))
+                    Column(modifier = Modifier.padding(7.dp).align(alignment = Alignment.CenterVertically)) {
+                        Text(text = item, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
+                        Text(text = "A great project", style = MaterialTheme.typography.bodyLarge)
+                    }
 
                 }
             }
@@ -178,9 +184,9 @@ private fun CreateInfo() {
 }
 
 @Composable
-private fun CreateImageProfile() {
+private fun CreateImageProfile(modifier: Modifier = Modifier) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .size(150.dp)
             .padding(5.dp),
         shape = CircleShape,
@@ -193,7 +199,7 @@ private fun CreateImageProfile() {
         Image(
             painter = painterResource(id = R.drawable.female_avatar),
             contentDescription = "profile image",
-            modifier = Modifier.size(135.dp),
+            modifier = modifier.size(135.dp),
             contentScale = ContentScale.Crop
         )
     }
